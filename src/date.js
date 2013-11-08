@@ -45,7 +45,7 @@ angular.module('ui.date', [])
           };
           if(readOnly) {
               opts.beforeShowDay = function (date) {
-                  return [false, (element.datepicker("getDate").getTime() == date.getTime()) ? "ui-state-active" : "", ""]
+                  return [false, (element.datepicker("getDate").getTime() === date.getTime()) ? "ui-state-active" : "", ""];
               };
           }
           opts.onClose = function(value, picker) {
