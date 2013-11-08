@@ -21,6 +21,7 @@ angular.module('ui.date', [])
       var getOptions = function () {
         return angular.extend({}, uiDateConfig, scope.$eval(attrs.uiDate));
       };
+      var readOnly = false;
       var initDateWidget = function () {
         var showing = false;
         var opts = getOptions();
@@ -42,6 +43,11 @@ angular.module('ui.date', [])
           opts.beforeShow = function() {
             showing = true;
           };
+          if(readOnly) {
+              opts.beforeShowDay = function (date) {
+                  return [false, (element.datepicker("getDate").getTime() == date.getTime()) ? "ui-state-active" : "", ""]
+              };
+          }
           opts.onClose = function(value, picker) {
             showing = false;
           };
@@ -72,6 +78,10 @@ angular.module('ui.date', [])
           controller.$render();
         }
       };
+      attrs.$observe('readonly', function (value) {
+          readOnly = value;
+          initDateWidget();
+      });
       // Watch for changes to the directives options
       scope.$watch(getOptions, initDateWidget, true);
     }
